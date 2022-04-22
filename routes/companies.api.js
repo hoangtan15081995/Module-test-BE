@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 const { off } = require("process");
+const { sendResponse, throwException } = require("../helpers/util");
 
 const loadData = () => {
   let db = fs.readFileSync("data.json", "utf8");
@@ -23,7 +24,7 @@ router.get("/", function (req, res, next) {
       listCompanyId.includes(company.id)
     );
     const number = newCompanies.length;
-    return res.send({ number, newCompanies, message: "jobs" });
+    return sendResponse(200, newCompanies, "jobs", res, next);
   }
   if (city === "Miami,New York") {
     const jobsMiami = jobs.filter((job) => job.city === "Miami");
@@ -37,17 +38,102 @@ router.get("/", function (req, res, next) {
         listNewYorkCompanyId.includes(company.id)
     );
     const number = newCompanies.length;
-    return res.send({ number, newCompanies, message: "jobs" });
+    return sendResponse(200, newCompanies, "jobs", res, next);
   }
   if (!city) {
     companies = companies.slice(offset, limit * page);
-    const number = companies.length;
-    return res.send({ number, companies, message: "companies" });
+    // const number = companies.length;
+    return sendResponse(200, companies, "companies", res, next);
   }
 });
 
 router.post("/", function (req, res, next) {
-  console.log("haha");
+  try {
+    const {
+      id,
+      name,
+      benefits,
+      description,
+      ratings,
+      jobs,
+      numOfJobs,
+      numOfRatings,
+    } = req.body;
+    if (
+      !id ||
+      !name ||
+      !benefits ||
+      !description ||
+      !ratings ||
+      !jobs ||
+      !numOfJobs ||
+      !numOfRatings
+    ) {
+      throwException("Missing info", 400);
+    }
+    let db = loadData();
+    const objCompany = {
+      id,
+      name,
+      benefits,
+      description,
+      ratings,
+      jobs,
+      numOfJobs,
+      numOfRatings,
+    };
+    db.companies.unshift(objCompany);
+    let newDb = db;
+    newDb = JSON.stringify(newDb);
+    fs.writeFileSync("data2.json", newDb);
+    return sendResponse(200, {}, "Successful update!", res, next);
+  } catch (error) {
+    next(error);
+  }
 });
 
+router.put("/", function (req, res, next) {
+  try {
+    const {
+      id,
+      name,
+      benefits,
+      description,
+      ratings,
+      jobs,
+      numOfJobs,
+      numOfRatings,
+    } = req.body;
+    if (
+      !id ||
+      !name ||
+      !benefits ||
+      !description ||
+      !ratings ||
+      !jobs ||
+      !numOfJobs ||
+      !numOfRatings
+    ) {
+      throwException("Missing info", 400);
+    }
+    let db = loadData();
+    const objCompany = {
+      id,
+      name,
+      benefits,
+      description,
+      ratings,
+      jobs,
+      numOfJobs,
+      numOfRatings,
+    };
+    db.companies.unshift(objCompany);
+    let newDb = db;
+    newDb = JSON.stringify(newDb);
+    fs.writeFileSync("data2.json", newDb);
+    return sendResponse(200, {}, "Successful update!", res, next);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;

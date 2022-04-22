@@ -15,4 +15,15 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 
+app.use((req, res, next) => {
+  const error = new Error("Path not found");
+  error.statusCode = 404;
+  next(error);
+});
+
+app.use((err, req, res, next) => {
+  console.log("ERROR", err.message);
+  return res.status(err.statusCode).send(err.message);
+});
+
 module.exports = app;
