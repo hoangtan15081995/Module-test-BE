@@ -71,7 +71,7 @@ router.post("/", function (req, res, next) {
     ) {
       throwException("Missing info", 400);
     }
-    let db = loadData();
+    db = loadData();
     const objCompany = {
       id,
       name,
@@ -92,42 +92,20 @@ router.post("/", function (req, res, next) {
   }
 });
 
-router.put("/", function (req, res, next) {
+router.put("/:id", function (req, res, next) {
   try {
-    const {
-      id,
-      name,
-      benefits,
-      description,
-      ratings,
-      jobs,
-      numOfJobs,
-      numOfRatings,
-    } = req.body;
-    if (
-      !id ||
-      !name ||
-      !benefits ||
-      !description ||
-      !ratings ||
-      !jobs ||
-      !numOfJobs ||
-      !numOfRatings
-    ) {
-      throwException("Missing info", 400);
+    const { id } = req.params;
+    db = loadData();
+    let companies = db.companies;
+    let companiesId = companies.map((company) => company.id);
+    if (!companiesId.includes(id)) {
+      throwException("Company not found", 404);
     }
-    let db = loadData();
-    const objCompany = {
-      id,
-      name,
-      benefits,
-      description,
-      ratings,
-      jobs,
-      numOfJobs,
-      numOfRatings,
-    };
-    db.companies.unshift(objCompany);
+    let foundCompanyId = companies.find((company) => company.id === id);
+    let indexFoundCompanyId = companies.indexOf(foundCompanyId);
+    foundCompanyId = { ...foundCompanyId, enterprise: "true" };
+    companies.splice(indexFoundCompanyId, 1, foundCompanyId);
+    db = { ...db, companies: companies };
     let newDb = db;
     newDb = JSON.stringify(newDb);
     fs.writeFileSync("data2.json", newDb);
@@ -136,4 +114,23 @@ router.put("/", function (req, res, next) {
     next(error);
   }
 });
+
+router.delete("/:id", function (req, res, next) {
+  try {
+    const { id } = req.params;
+    db = loadData();
+    let companies = db.companies;
+    let companiesId = companies.map((company) => company.id);
+    if (!companiesId.includes(id)) {
+      throwException("Company not found", 404);
+    }
+    let companiesAfterDelete = companies.filter((company) => company.id !== id);
+    companiesAfterDelete = JSON.stringify(companiesAfterDelete);
+    fs.writeFileSync("data2.json", companiesAfterDelete);
+    return sendResponse(200, {}, "Successful delete!", res, next);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
