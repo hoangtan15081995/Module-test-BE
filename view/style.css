@@ -1,0 +1,111 @@
+html {
+  width: 100%;
+}
+
+.container {
+  box-sizing: border-box;
+  margin: 0;
+  background-color: rgba(161, 153, 153, 0.705);
+  width: 100%;
+}
+
+.header-layout {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.699);
+}
+
+/* .header {
+  display: flex;
+  justify-content: space-between;
+} */
+
+/* .left-header {
+  margin: 20px; 
+   padding-left: 10px;
+} */
+
+/* .right-header {
+  display: flex;
+  margin: 20px;
+} */
+
+/* .form {
+  height: 100%;
+} */
+
+button {
+  font-size: 22px;
+  height: 68%;
+  margin-right: 20px;
+  background-color: transparent;
+  color: #fff;
+}
+
+.search-form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 50%;
+  margin-right: 10px;
+}
+
+.content-page {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.list {
+  border: 1px solid rgba(0, 0, 0, 0.815);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px;
+  padding: 5px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  width: 30vw;
+  height: 200px;
+}
+
+.companyName {
+  font-size: 30px;
+  text-align: center;
+  color: green;
+  margin: 10px;
+}
+
+.numJobs {
+  font-size: 20px;
+  text-align: center;
+  margin: 10px;
+}
+
+.boxDetail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.detail {
+  border: 1px solid #fff;
+  background-color: #fff;
+  margin-top: 50px;
+  padding: 10px;
+  width: 60%;
+}
+
+.btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  /* background-color: #fff; */
+  color: black;
+}

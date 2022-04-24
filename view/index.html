@@ -4,9 +4,29 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
   <title>Document</title>
 </head>
-<body>
-  
+<body class="container">
+  <div class='header-layout'>
+    <div class="header">
+      <div class="left-header">
+        <button id="list-card">Home</button>
+      </div>
+    </div>
+    <div>
+      <form action="#" class="search-form">
+        <input type="text" placeholder="Search" />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+  <div class="content-page" id="card-list"></div>
+  <div class="btn">
+    <button onclick="paginate(1)">1</button>
+    <button onclick="paginate(2)">2</button>
+    <button onclick="paginate(3)">3</button>
+  </div>
+  <script src='./script.js'></script>
 </body>
 </html>
